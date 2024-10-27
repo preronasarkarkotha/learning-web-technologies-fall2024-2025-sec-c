@@ -1,0 +1,27 @@
+ <employees>
+ <empolyee sr ="1">
+    
+       <name>john doe</name>
+       <address>H# 38, R#3, Banani, Dhaka</address>
+       <department>sales</department>
+       <salary>$20000</salary>
+    </employee>
+
+<empolyee sr ="2">
+    
+       <name> Mark Zuckerberg </name>
+       <address> Flat# A/1, H# 20, R#18, Mirpur, Dhaka </address>
+       <department>accounts</department>
+       <salary>$12000</salary>
+    </employee>
+ 
+
+ 
+<empolyee sr ="3">
+    
+       <name>  Ala Voski </name>
+       <address> H# 38, R#3, Motijheel </address>
+       <department>human resource</department>
+       <salary>$30000</salary>
+    </employee>
+     </employees>
