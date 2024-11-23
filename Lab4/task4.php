@@ -1,48 +1,25 @@
 <html>
     <body>
-        <form action="" value="">
+        <form action="">
             <fieldset>
-                <legend><b>Gender</b></legend>
-                <input type ="radio" name="" value=""/>Male
-                <input type ="radio" name="" value=""/>Female
-                <input type ="radio" name="" value=""/>Male
+                <legend><b>GENDER</b></legend>
+                <input type="radio" name="gender" value="male"> Male
+                <input type="radio" name="gender" value="female"> Female
+                <input type="radio" name="gender" value="other"> Other
+                
                 <hr>
-                <input Type="submit" name="" value="submit"/>
+                <input type="submit" name="submit" value="Submit"/>
+
                 <?php
-                if(isset($_GET['submit']))
-                {
-                    $email=$_GET['date'];
-                    if(empty($date))
-                    {
-                        echo "Date can't be empty";
-                    }
-                    else
-                    {
-                        if($day<1 || $day>31)
-                        {
-                            echo "Between 1 and 31";
-
-                        }
-                        elseif($month<1 || $month>12)
-                        {
-                            echo "Between 1 and 12";
-
-
-                        }
-                        elseif($year<1953 ||$year>1998)
-                        {
-                            echo "Between 1953 and 1998";
-
-
-                        }
-                        else
-                        {
-                            echo "Date is valid";
-                        }
+                if(isset($_GET['submit'])) {
+                    if(!isset($_GET['gender'])) {
+                        echo "Please select at least one gender option.";
+                    } else {
+                        $gender = $_GET['gender'];
+                        echo "Selected Gender: " . $gender;
                     }
                 }
                 ?>
-
             </fieldset>
         </form>
     </body>
