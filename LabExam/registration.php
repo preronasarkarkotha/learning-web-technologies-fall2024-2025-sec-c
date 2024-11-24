@@ -1,3 +1,20 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $name = trim($_POST['name']);
+    $id = trim($_POST['id']);
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $dob = $_POST['dob'];
+    $dept = $_POST['dept'];
+
+    if (empty($name) || empty($id) || empty($email) || empty($password) || empty($dob) || empty($dept)) {
+        echo "All fields are required!";
+    } else {
+        echo "Registration successful!";
+    }
+}
+?>
 
 <html lang="en">
 <head>
@@ -6,7 +23,7 @@
 <body>
     <h1><b>Registration Form</b></h1>
 
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form action="" method="POST" >
         <fieldset>
             <legend><b>Registration</b></legend>
             <table>
@@ -36,7 +53,7 @@
                         <select name="dept">
                             <option value="">CSE</option>
                             <option value="">CS</option>
-                            <option value="">SE</option>
+                            <option value="">EEE</option>
                         </select>
                     </td>
                 </tr>
