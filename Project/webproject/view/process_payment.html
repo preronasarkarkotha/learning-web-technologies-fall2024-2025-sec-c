@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f8f8;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .success {
+            color: green;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Payment Gateway</h2>
+    <form id="paymentForm">
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Input</th>
+            </tr>
+            <tr>
+                <td><label for="amount">Payment Amount:</label></td>
+                <td><input type="text" id="amount" name="amount" required></td>
+            </tr>
+            <tr>
+                <td><label for="payment_method">Payment Method:</label></td>
+                <td>
+                    <select id="payment_method" name="payment_method" required>
+                        <option value="">Select a method</option>
+                        <option value="credit_card">Credit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="bank_transfer">Bank Transfer</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="comment">Comment:</label></td>
+                <td><textarea id="comment" name="comment" rows="4" required></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button type="button" onclick="submitPayment()">Submit Payment</button>
+                </td>
+            </tr>
+        </table>
+        <div id="response_message" class="error"></div>
+    </form>
+</div>
+
+<script>
+    function submitPayment() {
+        const amount = document.getElementById('amount').value;
+        const paymentMethod = document.getElementById('payment_method').value;
+        const comment = document.getElementById('comment').value;
+        const responseMessage = document.getElementById('response_message');
+
+        
+        responseMessage.textContent = '';
+
+    
+        if (isNaN(amount) || amount <= 0) {
+            responseMessage.textContent = 'Please enter a valid payment amount.';
+            return;
+        }
+
+        if (!paymentMethod) {
+            responseMessage.textContent = 'Please select a payment method.';
+            return;
+        }
+
+        if (comment.trim() === '') {
+            responseMessage.textContent = 'Please enter a comment.';
+            return;
+        }
+
+        
+        const xhttp = new XMLHttpRequest();
+        xhttp.open('POST', 'payment_server.php', true);
+        xhttp.setRequestHeader('Content-type', 'application/json');
+
+        const data = JSON.stringify({
+            amount: amount,
+            payment_method: paymentMethod,
+            comment: comment,
+        });
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                const response = JSON.parse(this.responseText);
+                if (response.success) {
+                    responseMessage.className = 'success';
+                    responseMessage.textContent = response.message;
+                } else {
+                    responseMessage.className = 'error';
+                    responseMessage.textContent = response.message;
+                }
+            }
+        };
+
+        
+        xhttp.send(data);
+    }
+</script>
+</body>
+</html>
