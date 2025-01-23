@@ -1,0 +1,5 @@
+{
+    "validate_signup": "./control/signup-logic.php",
+    "signup_page": "./signup.php",
+    "signin_page": "./signin.php"
+}

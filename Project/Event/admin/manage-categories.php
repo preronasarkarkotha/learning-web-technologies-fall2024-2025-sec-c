@@ -1,0 +1,93 @@
+<?php 
+include 'header.php'; 
+require 'constaints.php'; // Include database constants
+
+
+// Connection to the database
+$conn = new mysqli($servername, $username, $password, $dbname);
+ 
+// Check connection
+if ($conn->connect_error) {
+    echo json_encode(["success" => false, "error" => "Database connection failed."]);
+    exit;
+}
+
+// Fetch gallery items
+$sql = "SELECT id, title, details FROM events ORDER BY id DESC";
+$result = $conn->query($sql);
+
+?>
+
+<section class="dashboard">
+    <div class="container dashboard__container">
+        <aside>
+            <ul>
+                <li>
+                    <a href="add-post.php"><i class="fas fa-edit"></i>
+                        <h7>Add Gallery</h7>
+                    </a>
+                </li>
+                <li>
+                    <a href="dashboard.php" class="active"><i class="fas fa-tasks"></i>
+                        <h7>Manage Gallery</h7>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-user.php"><i class="fas fa-user-plus"></i>
+                        <h7>Add user</h7>
+                    </a>
+                </li>
+                <li>
+                    <a href="manage-users.php" ><i class="fas fa-users"></i>
+                        <h7>Manage User</h7>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-category.php"><i class="fas fa-folder-plus"></i>
+                        <h7>Add Event</h7>
+                    </a>
+                </li>
+                <li>
+                    <a href="manage-categories.php" class="active"><i class="fas fa-folder"></i>
+                        <h7>Manage Event</h7>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <main>
+            <h2>Manage Event</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th><h7>Title</h7></th>
+                        <th><h7>Category</h7></th>
+                        <th><h7>Edit</h7></th>
+                        <th><h7>Delete</h7></th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    if ($result && $result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<tr>';
+                            echo '<td><h7>' . htmlspecialchars($row['title']) . '</h7></td>';
+                            echo '<td><h7>' . htmlspecialchars($row['details']) . '</h7></td>';
+                            echo '<td><a href="edit.php?id=' . $row['id'] . '" class="btn sm">Edit</a></td>';
+                            echo '<td><a href="eventdelete.php?id=' . $row['id'] . '" class="btn sm danger">Delete</a></td>';
+                            echo '</tr>';
+                        }
+                    } else {
+                        echo '<tr><td colspan="4"><h7>No gallery items available.</h7></td></tr>';
+                    }
+                    ?>
+                    
+                </tbody>
+            </table>
+        </main>
+    </div>
+</section>
+
+<?php 
+    include '../partials/footer.php';
+?>
